@@ -1,0 +1,215 @@
+<div class="container">
+  <h1>Hola Mundo</h1>
+  <h2>{{subtitulo}}</h2>
+  <ul>
+    @for (tarea of tareas(); track tarea; let i = $index) {
+      <li>
+        {{ i }} {{ tarea }}
+      </li>
+    }
+  </ul>
+  <hr />
+
+  <h2>{{'hola '.repeat(4)}}</h2>
+  <p>La suma de 3 + 3 es {{ 3 + 3 }}</p>
+  <p>Hola mi nombre es {{ name() }} y tengo {{ age() }} años</p>
+
+  <hr />
+  <!----la usamos aqui----->
+  <img [src]="person().avatar" alt="">
+  <!----la usamos aqui----->
+  <input type="text" [value]= 'person().age' >
+
+  <button [disabled]="estado">click me</button>
+  <!----la usamos aqui----->
+  <p>Persona: {{person().name}}</p>
+
+  <hr />
+
+  <!-- <button (click)="mostrarAlertaDelFormualrio()">Enviar Formulario Con un solo CLICK</button> -->
+
+  <button (dblclick)="mostrarAlertaDelFormualrio()">Enviar Formulario con un Doble CLICKS</button>
+  <hr />
+  <p>(Chanse) con numero</p>
+  <input type="number" [value]= 'person().age' (change)="eventoDesdeChanse($event)">
+  <p>(Chanse) con texto</p>
+  <input type="text" [value]= 'person().name' (change)="eventoDesdeChanse($event)">
+  <hr />
+  <p>(keydown) con texto</p>
+  <input type="text" [value]= 'person().name' (keydown)="ecevntosDesDeKeydown($event)">
+  <hr />
+  <p>(keydown) con numero</p>
+  <input type="number" [value]= 'person().age' (keydown)="ecevntosDesDeKeydown($event)">
+  <hr />
+  <p>(keydown) activado alerta con la tecla enter</p>
+  <input type="text" [value]= 'person().name' (keydown.enter)="ecevntosDesDeKeydown($event)">
+  <p>mi edad es: {{ person().name }}</p>
+  <hr />
+  <p>(keydown) activado alerta con un atajo de teclado</p>
+  <input type="text" [value]= 'person().name' (keydown.shift.q)="mostrarAlertaDelFormualrio()">
+  <hr />
+  <p>Single</p>
+  <input type="text" [value]= 'name()' (change)="eventoDesdeChanse($event)">
+  <p> Mi nombre es: {{ name() }}</p>
+  <hr />
+  <input type="number" [value]="age()" (keydown.enter)="ecevntosDesDeKeydown($event)">
+  <p>mi edad es: {{ age() }}</p>
+
+  <hr />
+  <p>Tengo {{tareas().length}} tareas: </p>
+  <ul>
+    @for (tarea of tareas(); track tarea; let i = $index) {
+      <li>
+        {{ i }} {{ tarea }}
+      </li>
+    }
+  </ul>
+  <hr />
+  @if (name() === 'jesus') {
+    <div>
+      hola soy jesus
+    </div>
+  }
+  <input type="number" [value]="person().age" (change)="eventoDesdeChaseObjPersonaAge($event)">
+  <hr />
+  @if (person().name == 'alex' && person().age >= 18) {
+    <div>
+      hola soy alex y soy mayor de edad.
+    </div>
+  } @else {
+    hola soy alex y soy menor de edad.
+  }
+  <ng-template #elseblock>
+    hola soy alex y soy menor de edad.
+  </ng-template>
+  <hr />
+  <input type="text" [value]="person().name" (change)="eventoDesdeChaseObjPersonaName($event)">
+  <div>
+    @switch (person().name) {
+      @case ('alex') {
+        <p>Hola soy alex</p>
+      }
+      @case ('carlos') {
+        <p>Hola soy carlos</p>
+      }
+      @case ('david') {
+        <p>Hola soy david</p>
+      }
+      @case ('jesus') {
+        <p>Hola soy jesus</p>
+      }
+      @default {
+        <p>Hola tu</p>
+      }
+    }
+  </div>
+  <hr />
+  <input type="color" [formControl]="colorCrtl">
+  <p>color: {{ colorCrtl.value }} </p>
+  <hr />
+  <svg>
+    <g>
+      <rect x="0" y="0" height="100" width="100" [attr.fill]="colorCrtl.value"/>
+    </g>
+  </svg>
+  <hr />
+  <input type="number" [formControl]="widthCrtl">
+  <span class="box" [style.width.px]="widthCrtl.value"></span>
+
+  <hr />
+  <p>
+    <input type="text" [formControl]="nameCrtl"> <br />
+    <span class="message-error" [class.show]="nameCrtl.invalid && nameCrtl.touched">Nombre Invalido</span>
+  </p>
+  <p>
+    <input type="text">
+  </p>
+  <hr />
+
+  <!-- <h1>Vieja Sintaxis IF</h1>
+  <div *ngIf="name() === 'jesus'">
+    hola soy jesus
+  </div> -->
+
+  <h1>Nueva Sintaxis IF</h1>
+  <div>
+    @if (name()=== 'jesus') {
+      <p>hola soy jesus</p>
+    }
+  </div>
+
+  <hr />
+
+  <!-- <h1>Vieja Sintaxis IF 2</h1>
+  <div *ngIf="person().name == 'alex' && person().age >= 18; else elseblock">
+    hola soy alex y soy mayor de edad.
+  </div>
+  <ng-template #elseblock>
+    hola soy alex y soy menor de edad.
+  </ng-template> -->
+
+  <h1>Nueva Sintaxis IF 2</h1>
+  <div>
+    @if (person().name == 'alex' && person().age >= 18) {
+      <p>hola soy alex y soy mayor de edad.</p>
+    }
+    @else {
+    <p>hola soy alex y soy menor de edad.</p>
+  }
+</div>
+
+<hr />
+
+<!-- <h1>Vieja Sintaxis FOR</h1>
+<ul>
+  <li *ngFor="let tarea of tareas(); index as i">
+    {{ i }} {{ tarea }}
+  </li>
+</ul> -->
+
+<h1>Nueva Sintaxis FOR</h1>
+<ul>
+  @for (tarea of tareas(); track tarea; let i = $index) {
+    <li>{{ i }} {{ tarea }}</li>
+    } @empty {
+    <li>
+      <strong>
+        la lista está vacía
+      </strong>
+    </li>
+  }
+</ul>
+
+<hr />
+
+<!-- <h1>Vieja Sintaxis Switch</h1>
+<div [ngSwitch]="person().name">
+  <p *ngSwitchCase="'alex'">Hola soy alex</p>
+  <p *ngSwitchCase="'carlos'">Hola soy carlos</p>
+  <p *ngSwitchCase="'david'">Hola soy david</p>
+  <p *ngSwitchCase="'jesus'">Hola soy jesus</p>
+  <p *ngSwitchDefault>Hola tu</p>
+</div> -->
+
+<h1>Nueva Sintaxis Switch</h1>
+<div>
+  @switch (person().name) {
+    @case ('alex') {
+      <p>Hola soy alex</p>
+    }
+    @case ('carlos') {
+      <p>Hola soy carlos</p>
+    }
+    @case ('david') {
+      <p>Hola soy david</p>
+    }
+    @case ('jesus') {
+      <p>Hola soy jesus</p>
+    }
+    @default {
+      <p>Hola tu</p>
+    }
+  }
+</div>
+
+</div>

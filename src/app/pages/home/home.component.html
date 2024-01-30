@@ -1,0 +1,67 @@
+<section class="todoapp">
+  <header class="header">
+    <div class="container">
+      <h1>My Day</h1>
+      <p>All my tasks in one place</p>
+      <input
+        class="new-todo"
+        placeholder="Type new todo"
+        autofocus
+        type="text"
+        [formControl] = "nuevaTareaCtrl"
+        (keydown.enter)="chengeTarea()"
+        />
+      </div>
+    </header>
+    <div class="container todoapp-wrapper">
+      <!-- This section should be hidden by default and shown when there are todos -->
+      <section class="main">
+        <ul class="todo-list">
+          @for (tarea of mostradoTareasFilter(); track tarea; let i = $index) {
+            <li
+              (dblclick)="cambiarEstadoEdicion(i)"
+              [class.editing] = "tarea.editing"
+              [class.completed] = "tarea.completado"
+              >
+              <div class="view">
+                <input class="toggle" type="checkbox" [checked]="tarea.completado" (change)="cambiarEstado(i)"/>
+                <label>{{ tarea.titulo }}</label>
+                <button class="destroy" (click)="borrarTarea(i)"></button>
+              </div>
+              <input class="edit"
+                (keydown.enter) = "editarTareatexto(i, $event)"
+                [value]="tarea.titulo"
+                [disabled] = "tarea.completado"
+                />
+              </li>
+            }
+          </ul>
+        </section>
+        <!-- This footer should be hidden by default and shown when there are todos -->
+        <footer class="footer">
+          <!-- This should be `0 items left` by default -->
+          <span class="todo-count">
+            <strong>{{mostradoTareasFilter().length}}</strong>
+            @if (mostradoTareasFilter().length <= 1) {
+              <span> item </span>
+            } @else {
+              items
+            }
+          </span>
+          <!-- Remove this if you don't implement routing -->
+          <ul class="filters">
+            <li>
+              <a (click)="chanseFilter('all')" [class.selected]="filter() === 'all'" >All</a>
+            </li>
+            <li>
+              <a (click)="chanseFilter('pending')" [class.selected]="filter() === 'pending'">Pending</a>
+            </li>
+            <li>
+              <a (click)="chanseFilter('completed')" [class.selected]="filter() === 'completed'" >Completed</a>
+            </li>
+          </ul>
+          <!-- Hidden if no completed items are left ↓ -->
+          <button class="clear-completed">Clear completed</button>
+        </footer>
+      </div>
+    </section>
